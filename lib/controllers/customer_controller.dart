@@ -1,31 +1,34 @@
-import 'package:get/get.dart';
-import 'package:meuspacientes/models/customer.dart';
-import 'package:meuspacientes/repos/customer_repo.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:meuspacientes/utils/nav.dart';
+import '../models/customer.dart';
+import '../dao/customer_dao.dart';
+import '../views/customer_form_page.dart';
 
-class CustomerController extends GetxController {
-  final CustomerRepo repo = CustomerRepo();
+class CustomerController extends ChangeNotifier {
+  final CustomerDao _repo = CustomerDao();
 
-  late List<Customer> customers;
-
-  @override
-  void onInit() {
-    // Here you can fetch you product from server
-    super.onInit();
-    print("Buscando dados...");
-    this.customers = repo.customers.obs();
-    update();
+  List<Customer> getCustomers() {
+    return _repo.customers;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void save(BuildContext context, Customer customer) {
+    _repo.update(customer);
+    Navigator.of(context).pop();
+    notifyListeners();
   }
 
-  @override
-  void onClose() {
-    // Here, you can dispose your StreamControllers
-    // you can cancel timers
-    super.onClose();
+  void goToFormNew(BuildContext context) {
+    Customer c = Customer(id: 0, name: "", cel: "", email: "");
+    goTo(context, CustomerFormPage(c));
+  }
+
+  void goToPageEdit(BuildContext context, Customer customer) {
+    goTo(context, CustomerFormPage(customer));
+  }
+
+  void remove(BuildContext context, Customer customer) {
+    _repo.remove(customer.id);
+    Navigator.of(context).pop();
+    notifyListeners();
   }
 }

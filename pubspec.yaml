@@ -30,9 +30,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
-  get: null
-  hive: ^2.0.5
-  hive_flutter: ^1.1.0
   http: ^0.13.1
   intl: null
   path_provider: ^2.0.2
