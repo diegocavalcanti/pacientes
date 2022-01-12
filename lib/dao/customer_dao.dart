@@ -1,90 +1,51 @@
 import 'dart:collection';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meuspacientes/database/db.dart';
+import 'package:meuspacientes/utils/constants.dart';
+import 'package:meuspacientes/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../models/customer.dart';
 
 class CustomerDao {
-  static const tableName = 'customer';
-
   List<Customer> _listCustomer = [];
+  LazyBox box;
 
   UnmodifiableListView<Customer> get customers =>
       UnmodifiableListView(_listCustomer);
 
   CustomerDao() {
-    initRepo();
+    _startRepository();
   }
 
-  void save(Customer entity) async {
-    // Database db = await DB.instance.get();
-    // await db.insert(
-    //   tableName,
-    //   entity.toMap(),
-    //   conflictAlgorithm: ConflictAlgorithm.replace,
-    // );
-    _listCustomer.add(entity);
+  _startRepository() async {
+    box = await Hive.openLazyBox<Customer>(boxCustomers);
+    await _readData();
   }
 
-  initRepo() async {
-    // Database db = await DB.instance.get();
-
-    // //* give values from database.
-    // final List<Map<String, dynamic>> maps = await db.query(tableName);
-
-    // //* store var list entitys
-    // _listCustomer = List.generate(maps.length, (i) {
-    //   return Customer(
-    //     id: maps[i]['id'],
-    //     name: maps[i]['name'],
-    //     cel: maps[i]['cel'],
-    //     comments: maps[i]['comments'],
-    //   );
-    // });
-
-    _listCustomer.add(Customer(
-        id: 1,
-        name: "Diego Daniel",
-        cel: "(67) 99152-0703",
-        email: "diego@teste.com.br",
-        comments: "Cliente Especial"));
-
-    _listCustomer.add(Customer(
-        id: 2,
-        name: "Gabriela Beatriz",
-        cel: "(67) 99247-3025",
-        email: "gabi@teste.com.br",
-        comments: "Cliente Super"));
-
-    print('Total Registros:' + _listCustomer.length.toString());
+  _readData() {
+    box.keys.forEach((customer) async {
+      Customer c = await box.get(customer);
+      _listCustomer.add(c);
+    });
+    print('${_listCustomer}');
   }
 
-  Future<void> update(Customer entity) async {
-    Database db = await DB.instance.get();
-
-    //* Update the given Entity.
-    await db.update(
-      tableName,
-      entity.toMap(),
-      //* Ensure that the Dog has a matching id.
-      where: 'id = ?',
-      //* Pass the Entiy id as a whereArg to prevent SQL injection.
-      whereArgs: [entity.id],
-    );
+  void save(Customer entity) {
+    entity.id = uuid();
+    print('save ${entity}');
+    box.put(entity.id, entity);
+    _readData();
   }
 
-  Future<void> remove(int id) async {
-    _listCustomer.removeWhere((element) => element.id == id);
-    // Database db = await DB.instance.get();
+  void update(Customer entity) {
+    box.put(entity.id, entity);
+    _readData();
+  }
 
-    // //* Update the given Entity.
-    // await db.delete(
-    //   tableName,
-    //   //* Use a `where` clause to delete a specific entity.
-    //   where: 'id = ?',
-    //   //* Pass the Dog's id as a whereArg to prevent SQL injection.
-    //   whereArgs: [id],
-    // );
+  void remove(String id) {
+    box.delete(id);
+    _readData();
   }
 }

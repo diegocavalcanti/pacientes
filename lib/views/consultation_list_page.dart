@@ -4,8 +4,6 @@ import 'package:meuspacientes/models/customer.dart';
 import 'package:provider/provider.dart';
 
 class ConsulationListPage extends StatelessWidget {
-  const ConsulationListPage({Key? key}) : super(key: key);
-
   Widget iconEditButton(Function() onPressed) {
     return IconButton(
         icon: Icon(Icons.edit), color: Colors.orange, onPressed: onPressed);

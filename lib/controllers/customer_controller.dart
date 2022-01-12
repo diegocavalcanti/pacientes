@@ -12,13 +12,13 @@ class CustomerController extends ChangeNotifier {
   }
 
   void save(BuildContext context, Customer customer) {
-    _repo.update(customer);
+    _repo.save(customer);
     Navigator.of(context).pop();
     notifyListeners();
   }
 
   void goToFormNew(BuildContext context) {
-    Customer c = Customer(id: 0, name: "", cel: "", email: "");
+    Customer c = Customer();
     goTo(context, CustomerFormPage(c));
   }
 

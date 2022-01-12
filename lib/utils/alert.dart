@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-alert(BuildContext context, String title, String msg, {Function? callback}) {
+alert(BuildContext context, String title, String msg, {Function callback}) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -28,7 +28,7 @@ alert(BuildContext context, String title, String msg, {Function? callback}) {
 }
 
 alertConfirm(BuildContext context, String title, String msg,
-    {Function? confirmCallback, Function? cancelCallback}) {
+    {Function confirmCallback, Function cancelCallback}) {
   showDialog(
     context: context,
     barrierDismissible: true,

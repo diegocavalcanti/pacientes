@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meuspacientes/controllers/customer_controller.dart';
 import 'package:meuspacientes/models/customer.dart';
 import 'package:provider/provider.dart';
 
 class CustomerListPage extends StatelessWidget {
-  const CustomerListPage({Key? key}) : super(key: key);
+  const CustomerListPage({Key key}) : super(key: key);
 
   Widget iconEditButton(Function() onPressed) {
     return IconButton(
@@ -44,12 +46,12 @@ class CustomerListPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-            title: Text("Pacientes (${controller.getCustomers().length})")),
+        appBar: AppBar(title: Text("Pacientes")),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () => controller.goToFormNew(context),
-        ),
+            child: Icon(Icons.add),
+            onPressed: () {
+              controller.goToFormNew(context);
+            }),
         body: Container(
           child: ListView.builder(
               itemCount: controller.getCustomers().length,
@@ -61,10 +63,10 @@ class CustomerListPage extends StatelessWidget {
                     Icons.person,
                     color: Colors.blue,
                   ),
-                  title: Text(customer.name),
+                  title: Text(customer.name ?? ''),
                   subtitle: Row(
                     children: [
-                      Text(customer.cel),
+                      Text(customer.cel ?? ''),
                     ],
                   ),
                   onTap: () => controller.goToPageEdit(context, customer),

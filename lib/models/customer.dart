@@ -1,32 +1,43 @@
-class Customer {
-  int id;
+import 'package:hive/hive.dart';
+
+part 'customer.g.dart';
+
+//! flutter packages pub run build_runner build
+
+@HiveType(typeId: 2)
+class Customer extends HiveObject {
+  @HiveType(typeId: 0)
+  String id;
+  @HiveType(typeId: 1)
   String name;
+  @HiveType(typeId: 2)
   String cel;
+  @HiveType(typeId: 3)
   String email;
-  String? responsible;
-  String? comments;
-  
+  @HiveType(typeId: 4)
+  String responsible;
+  @HiveType(typeId: 5)
+  String comments;
+
   Customer(
-      {required this.id,
-      required this.name,
-      required this.cel,
-      required this.email,
+      {this.id,
+      this.name,
+      this.cel,
+      this.email,
       this.responsible,
       this.comments});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'cel': cel,
-      'email': email,
-      'responsible': responsible,
-      'comments': comments
-    };
-  }
+  // @override
+  // String toString() => id;
 
-  @override
-  String toString() {
-    return 'Customer{id: $id, name: $name}';
-  }
+  // Map<String, dynamic> toMap() {
+  //   return {
+  //     'id': id,
+  //     'name': name,
+  //     'cel': cel,
+  //     'email': email,
+  //     'responsible': responsible,
+  //     'comments': comments
+  //   };
+  // }
 }

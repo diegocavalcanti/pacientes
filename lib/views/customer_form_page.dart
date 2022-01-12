@@ -17,7 +17,7 @@ class CustomerFormPage extends StatelessWidget {
         }
         return null;
       },
-      onSaved: (newValue) => {c.name = newValue!},
+      onSaved: (newValue) => {c.name = newValue},
       initialValue: c.name,
       decoration: InputDecoration(labelText: "Nome:"),
     );
@@ -31,7 +31,7 @@ class CustomerFormPage extends StatelessWidget {
         }
         return null;
       },
-      onSaved: (newValue) => {c.cel = newValue!},
+      onSaved: (newValue) => {c.cel = newValue},
       initialValue: c.cel,
       decoration: InputDecoration(labelText: "Celular:"),
     );
@@ -39,7 +39,7 @@ class CustomerFormPage extends StatelessWidget {
 
   Widget fieldResponsible(Customer c) {
     return TextFormField(
-      onSaved: (newValue) => {c.responsible = newValue!},
+      onSaved: (newValue) => {c.responsible = newValue},
       initialValue: c.responsible,
       decoration: InputDecoration(labelText: "Resonsável:"),
     );
@@ -55,7 +55,7 @@ class CustomerFormPage extends StatelessWidget {
         }
         return null;
       },
-      onSaved: (newValue) => {c.email = newValue!},
+      onSaved: (newValue) => {c.email = newValue},
       initialValue: c.email,
       decoration: InputDecoration(labelText: "Email:"),
     );
@@ -71,8 +71,8 @@ class CustomerFormPage extends StatelessWidget {
           IconButton(
               icon: Icon(Icons.save),
               onPressed: () {
-                if (_form.currentState!.validate()) {
-                  _form.currentState!.save();
+                if (_form.currentState.validate()) {
+                  _form.currentState.save();
                   controller.save(context, customer);
                 }
               })

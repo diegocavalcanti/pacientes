@@ -7,7 +7,7 @@ class DB {
 
   DB._privateConstructor();
   static final DB instance = DB._privateConstructor();
-  late Database _database;
+  Database _database;
 
   Future<Database> get() async {
     WidgetsFlutterBinding.ensureInitialized();
